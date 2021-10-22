@@ -1,1 +1,2 @@
-# project-team-3
+# InternetShop
+3-tier architecture skeleton
