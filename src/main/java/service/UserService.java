@@ -9,5 +9,7 @@ public interface UserService {
      * @param password user password
      * @return outcome of login - success or not
      */
+
     boolean login(String username, String password);
+
 }
