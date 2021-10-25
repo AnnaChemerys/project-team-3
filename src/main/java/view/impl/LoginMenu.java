@@ -1,7 +1,6 @@
 package view.impl;
 
-
-import dao.UserDaoImpl;
+import model.User;
 import service.UserService;
 import service.UserServiceImpl;
 import view.Menu;
@@ -10,7 +9,7 @@ import java.util.Scanner;
 
 public class LoginMenu implements Menu {
 
-    private UserService userService;
+    private final UserService userService = new UserServiceImpl();
     private String[] items = {"1.Login", "2.Register", "0. Exit"};
     private Scanner scanner;
 
@@ -27,7 +26,7 @@ public class LoginMenu implements Menu {
                     loginSubMenu(scanner);
                     break;
                 case 2:
-                    loginSubMenu(scanner);
+                    registerSubMenu(scanner);
                     break;
                 case 0:
                     exit();
@@ -48,8 +47,6 @@ public class LoginMenu implements Menu {
 
         System.out.println("Input password:");
         String password = scanner.nextLine();
-        UserDaoImpl userDao = new UserDaoImpl();
-        UserServiceImpl userService = new UserServiceImpl(userDao);
 
         if (userService.login(login, password)) {
             new ProductMenu().show();
@@ -60,6 +57,16 @@ public class LoginMenu implements Menu {
     }
 
     private void registerSubMenu(Scanner scanner) {
-        show(); //todo add impl
+
+        System.out.println("Input login:");
+        scanner.nextLine();
+        String login = scanner.nextLine();
+
+        System.out.println("Input password:");
+        String password = scanner.nextLine();
+
+        User user = new User(login, password);
+        userService.register(user);
+        show();
     }
 }
