@@ -4,7 +4,14 @@ import model.User;
 
 import java.util.List;
 
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl implements UserDao {
+
+
+    public UserDaoImpl() {
+
+    }
+
+
     @Override
     public void save(User user) {
 

@@ -1,24 +1,22 @@
 package view.impl;
 
 
-import model.Product;
+import dao.UserDaoImpl;
 import service.UserService;
+import service.UserServiceImpl;
 import view.Menu;
 
-import java.awt.*;
 import java.util.Scanner;
 
 public class LoginMenu implements Menu {
 
     private UserService userService;
-    private String[] items = {"1.Login", "2.Register"};
+    private String[] items = {"1.Login", "2.Register", "0. Exit"};
     private Scanner scanner;
 
     @Override
     public void show() {
         showItems(items);
-        System.out.println("0. Exit");
-
         scanner = new Scanner(System.in);
 
         while (true) {
@@ -44,11 +42,14 @@ public class LoginMenu implements Menu {
     }
 
     private void loginSubMenu(Scanner scanner) {
-        System.out.println("input login:");
+        System.out.println("Input login:");
+        scanner.nextLine();
         String login = scanner.nextLine();
 
-        System.out.println("input password:");
+        System.out.println("Input password:");
         String password = scanner.nextLine();
+        UserDaoImpl userDao = new UserDaoImpl();
+        UserServiceImpl userService = new UserServiceImpl(userDao);
 
         if (userService.login(login, password)) {
             new ProductMenu().show();
