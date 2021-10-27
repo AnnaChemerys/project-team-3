@@ -1,26 +1,19 @@
 package model;
 
-
 import java.io.Serializable;
+import java.util.Objects;
 
 public class User implements Serializable {
 
-    private String name;
     private String login;
     private String password;
+    private UserRole role;
+    public enum UserRole {USER, ADMIN}
 
-    public User(String name, String login, String password) {
-        this.name = name;
+    public User(String login, String password, UserRole role) {
         this.login = login;
         this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.role = role;
     }
 
     public String getLogin() {
@@ -39,12 +32,34 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(login, user.login) && Objects.equals(password, user.password) && role == user.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(login, password, role);
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
-                ", login='" + login + '\'' +
+                "login='" + login + '\'' +
                 ", password='" + password + '\'' +
+                ", role=" + role +
                 '}';
     }
 }
+

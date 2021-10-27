@@ -3,6 +3,7 @@ package dao;
 import model.User;
 import util.FileOperation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,8 +37,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void update(User user) {
         for (User userTemp : users) {
-            if (userTemp.getLogin().equals(user.getLogin())) {
-                userTemp.setName(user.getName());
+            if (userTemp.equals(user)) {
+                userTemp.setRole(user.getRole());
                 userTemp.setPassword(user.getPassword());
                 writeToFile(users);
             }
@@ -49,7 +50,7 @@ public class UserDaoImpl implements UserDao {
         int deleteItem = -1;
 
         for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getLogin().equals(user.getLogin())) {
+            if (users.get(i).equals(user)) {
                 deleteItem = i;
             }
         }
