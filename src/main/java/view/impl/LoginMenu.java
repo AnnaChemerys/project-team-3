@@ -85,5 +85,6 @@ public class LoginMenu implements Menu {
         User user = new User(login, password, User.UserRole.ADMIN);
         userService.register(user);
         show();
+
     }
 }
