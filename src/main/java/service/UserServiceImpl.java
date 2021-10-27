@@ -16,30 +16,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean login(String username, String password) {
         List<User> users = userDao.getAll();
-        User user = new User(username, password);
-        if (users.contains(user)) {
-            System.out.println("Welcome");
-            return true;
-        } else {
-            return false;
-        }
+        return users.stream().anyMatch(existedUser -> existedUser.getLogin().equals(username) && existedUser.getPassword().equals(password));
     }
 
-    @Override
     public void register(User user) {
         if (validateUser(user)) {
             userDao.save(user);
         } else {
-            System.out.println("Error");
+            System.out.println("Failed to register user. User with login " + user.getLogin() + " already exists!");
         }
     }
 
+    @Override
     public boolean validateUser(User user) {
         List<User> users = userDao.getAll();
-        if (users.stream().anyMatch(existedUser -> existedUser.equals(user.getLogin()))) {
-            System.out.println("User with login - " + user.getLogin() + " already exists!");
-            return false;
-        }
-        return true;
+        return users.stream().noneMatch(existedUser -> existedUser.getLogin().equals(user.getLogin()));
     }
 }
