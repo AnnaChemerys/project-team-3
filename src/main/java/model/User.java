@@ -2,18 +2,29 @@ package model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
-public class User implements Serializable {
+public class User implements Serializable, HasId {
 
+    private final String id;
     private String login;
     private String password;
     private UserRole role;
     public enum UserRole {USER, ADMIN}
 
+    public User() {
+        this.id = UUID.randomUUID().toString();
+    }
+
     public User(String login, String password, UserRole role) {
+        this.id = UUID.randomUUID().toString();
         this.login = login;
         this.password = password;
         this.role = role;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getLogin() {

@@ -1,20 +1,26 @@
 package dao;
 
 import model.Order;
-import model.User;
 
 import java.util.List;
 
-public interface OrderDao {
+public class OrderDao extends AbstractDao<Order> {
 
-    void save(Order order);
+    @Override
+    protected String getFileName() {
+        return FileNames.ORDERS.getFileName();
+    }
 
-    void update(Order order);
-
-    void delete(Order order);
-
-    Order getByLogin(User user);
-
-    List<Order> getAll();
-
+    @Override
+    public void update(Order order) {
+        List<Order> tempList = items;
+        for (Order orderTemp : tempList) {
+            if (orderTemp.getUser() != null && orderTemp.getUser().equals(order.getUser())) {
+                orderTemp.setProducts(order.getProducts());
+                orderTemp.setApproved(order.isApproved());
+            }
+        }
+        fileOperation.writeIntoFile(tempList, filename);
+        items = tempList;
+    }
 }

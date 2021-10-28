@@ -1,40 +1,34 @@
 package model;
 
 import java.io.Serializable;
+import java.util.UUID;
 
-public class Product implements Serializable {
+public class Product implements Serializable, HasId {
 
     private static final long serialVersionUID = 1L;
 
-    private int id;
+    private final String id;
     private float price;
     private String name;
     private int amount;
     private ProductCategories category;
 
-    public Product(int id, float price, String name, int amount, ProductCategories category) {
-        this.id = id;
-        this.price = price;
-        this.name = name;
-        this.amount = amount;
-        this.category = category;
+    public Product() {
+        this.id = UUID.randomUUID().toString();
     }
 
     public Product(float price, String name, int amount, ProductCategories category) {
-        this.id = (int) (Math.random() * 1000);
+        this.id = UUID.randomUUID().toString();
         this.price = price;
         this.name = name;
         this.amount = amount;
         this.category = category;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public float getPrice() {
         return price;

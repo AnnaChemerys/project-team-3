@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//TODO
 public class ProductDaoImpl implements ProductDao {
 
     private final String filename = "products.ser";
@@ -82,7 +83,7 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public Product getById(long id) {
         for (Product productTemp : products) {
-            if (productTemp.getId() == id) {
+            if (productTemp.getId().equals(id)) {
                 return productTemp;
             }
         }
