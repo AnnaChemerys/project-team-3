@@ -49,18 +49,8 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void delete(Order order) {
-        int deleteItem = -1;
-
-        for (int i = 0; i < orders.size(); i++) {
-            if (orders.get(i).equals(order)) {
-                deleteItem = i;
-            }
-        }
-
-        if (deleteItem != -1) {
-            orders.remove(deleteItem);
-            writeToFile(orders);
-        }
+        orders.remove(order);
+        writeToFile(orders);
     }
 
     @Override
