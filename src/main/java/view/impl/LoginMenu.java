@@ -1,35 +1,34 @@
 package view.impl;
 
-
-import model.Product;
+import model.User;
 import service.UserService;
+import service.UserServiceImpl;
 import view.Menu;
 
-import java.awt.*;
 import java.util.Scanner;
 
 public class LoginMenu implements Menu {
 
-    private UserService userService;
-    private String[] items = {"1.Login", "2.Register"};
-    private Scanner scanner;
+    private final UserService userService = new UserServiceImpl();
+    private String[] items = {"1.Login", "2.User registration", "3.Administrator registration", "0. Exit"};
+    private Scanner scanner = new Scanner(System.in);
 
     @Override
     public void show() {
         showItems(items);
-        System.out.println("0. Exit");
-
-        scanner = new Scanner(System.in);
 
         while (true) {
             int choice = scanner.nextInt();
 
             switch (choice) {
                 case 1:
-                    loginSubMenu(scanner);
+                    loginSubMenu();
                     break;
                 case 2:
-                    loginSubMenu(scanner);
+                    registerUser();
+                    break;
+                case 3:
+                    registerAdmin();
                     break;
                 case 0:
                     exit();
@@ -43,14 +42,16 @@ public class LoginMenu implements Menu {
         System.exit(0);
     }
 
-    private void loginSubMenu(Scanner scanner) {
-        System.out.println("input login:");
+    private void loginSubMenu() {
+        System.out.println("Input login:");
+        scanner.nextLine();
         String login = scanner.nextLine();
 
-        System.out.println("input password:");
+        System.out.println("Input password:");
         String password = scanner.nextLine();
 
         if (userService.login(login, password)) {
+            System.out.println("Successfully authorization");
             new ProductMenu().show();
         } else {
             System.out.println("Wrong username/password");
@@ -58,7 +59,32 @@ public class LoginMenu implements Menu {
         }
     }
 
-    private void registerSubMenu(Scanner scanner) {
-        show(); //todo add impl
+    private void registerUser() {
+
+        System.out.println("Input login:");
+        scanner.nextLine();
+        String login = scanner.nextLine();
+
+        System.out.println("Input password:");
+        String password = scanner.nextLine();
+
+        User user = new User(login, password, User.UserRole.USER);
+        userService.register(user);
+        show();
+    }
+
+    private void registerAdmin() {
+
+        System.out.println("Input login:");
+        scanner.nextLine();
+        String login = scanner.nextLine();
+
+        System.out.println("Input password:");
+        String password = scanner.nextLine();
+
+        User user = new User(login, password, User.UserRole.ADMIN);
+        userService.register(user);
+        show();
+
     }
 }
