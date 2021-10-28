@@ -1,6 +1,7 @@
 package dao;
 
 import model.Product;
+import model.ProductCategories;
 
 import java.util.List;
 
@@ -8,15 +9,18 @@ import java.util.List;
  * Created by Igor on 10/8/2019.
  */
 public interface ProductDao {
+
     void save(Product product);
 
-    void update(Product producr);
+    void update(Product product);
 
-    void delete(Product produc);
+    void delete(Product product);
 
-    Product getByName(String name);
+    List<Product> searchBy(String name);
 
     List<Product> getAll();
 
     Product getById(long id);
+
+    List<Product> getByCategory(ProductCategories category);
 }
