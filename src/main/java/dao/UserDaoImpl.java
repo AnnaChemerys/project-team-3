@@ -47,18 +47,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void delete(User user) {
-        int deleteItem = -1;
-
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).equals(user)) {
-                deleteItem = i;
-            }
-        }
-
-        if (deleteItem != -1) {
-            users.remove(deleteItem);
-            writeToFile(users);
-        }
+        users.remove(user);
+        writeToFile(users);
     }
 
     @Override
