@@ -1,14 +1,13 @@
 package model;
 
-
+import java.io.Serializable;
 import java.util.Objects;
 
-public class User {
+public class User implements Serializable {
 
     private String login;
-    private String password; // hash
+    private String password;
     private UserRole role;
-
     public enum UserRole {USER, ADMIN}
 
     public User(String login, String password, UserRole role) {
@@ -17,28 +16,28 @@ public class User {
         this.role = role;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
-
     public String getLogin() {
         return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public UserRole getRole() {
         return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     @Override
@@ -63,3 +62,4 @@ public class User {
                 '}';
     }
 }
+
