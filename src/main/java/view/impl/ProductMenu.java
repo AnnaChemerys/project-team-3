@@ -12,7 +12,7 @@ public class ProductMenu implements Menu {
     private final ProductDao productDao = new ProductDaoImpl();
     private final User.UserRole currentRole = CurrentUser.user.getRole();
     private final String[] items = currentRole == User.UserRole.USER
-            ? new String[]{"1. Product list", "2. Search product", "3. Order checkout" , "0. Exit"}
+            ? new String[]{"1. Product list", "2. Search product", "3. Add product to order", "4. Order checkout" , "0. Exit"}
             : new String[]{"1. Product list", "2. Edit product", "3. Add product", "0. Exit"};
     private final Scanner scanner = new Scanner(System.in);
     @Override
@@ -27,7 +27,8 @@ public class ProductMenu implements Menu {
                     switch (choice) {
                         case 1 -> productList();
                         case 2 -> searchProduct();
-                        case 3 -> orderCheckout();
+                        case 3 -> addProductToOrder();
+                        case 4 -> orderCheckout();
                         case 0 -> exit();
                     }
                 }
@@ -41,6 +42,9 @@ public class ProductMenu implements Menu {
                 }
             }
         }
+    }
+
+    private void addProductToOrder() {
     }
 
     private void addProduct() {
