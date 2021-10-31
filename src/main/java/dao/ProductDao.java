@@ -3,8 +3,8 @@ package dao;
 import model.Product;
 import model.ProductCategories;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductDao extends AbstractDao<Product> {
 
@@ -30,25 +30,15 @@ public class ProductDao extends AbstractDao<Product> {
 
 
     public List<Product> searchBy(String text) {
-        List<Product> productsYouLookingFor = new ArrayList<>();
-        List<Product> tempList = items;
-        for (Product productTemp : tempList) {
-            if (productTemp.getName().contains(text)) {
-                productsYouLookingFor.add(productTemp);
-            }
-        }
-        return productsYouLookingFor;
+        return items.stream()
+                .filter(item -> item.getName().contains(text))
+                .collect(Collectors.toList());
     }
 
 
     public List<Product> getByCategory(ProductCategories category) {
-        List<Product> newProducts = new ArrayList<>();
-        List<Product> tempList = items;
-        for (Product productTemp : tempList) {
-            if (productTemp.getCategory() == category) {
-                newProducts.add(productTemp);
-            }
-        }
-        return newProducts;
+        return items.stream()
+                .filter(item -> item.getCategory().equals(category))
+                .collect(Collectors.toList());
     }
 }

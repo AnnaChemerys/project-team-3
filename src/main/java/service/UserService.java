@@ -19,5 +19,7 @@ public interface UserService {
 
     boolean validateUser(User user);
 
-    void blockUnblockUser(String login);
+    void blockUser(String login);
+
+    void unblockUser(String login);
 }

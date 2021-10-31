@@ -24,7 +24,17 @@ public class BlockUnblockUserMenu implements Menu {
                     System.out.println("Enter username");
                     scanner.nextLine();
                     String login = scanner.nextLine();
-                    userService.blockUnblockUser(login);
+                    System.out.println("Press 1 to block the user\n" +
+                            "Press 2 to unlock the user");
+                    int blockUnblock = scanner.nextInt();
+                    switch (blockUnblock) {
+                        case 1:
+                            userService.blockUser(login);
+                            break;
+                        case 2:
+                            userService.unblockUser(login);
+                            break;
+                    }
                     new AdminMainMenu().show();
                     break;
                 case 2:

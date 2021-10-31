@@ -34,15 +34,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void blockUnblockUser(String login) {
+    public void unblockUser(String login) {
         User user = userDao.getByLogin(login);
         if (user != null) {
-            if (user.isBlock()) {
+            if (!user.isBlock()) {
                 System.out.println("User " + user.getLogin() + " unblocked");
                 user.setBlock(false);
             } else {
+                System.out.println("User " + user.getLogin() + " is already unblocked");
+            }
+            userDao.update(user);
+        } else {
+            System.out.println("User not exists");
+        }
+    }
+
+    @Override
+    public void blockUser(String login) {
+        User user = userDao.getByLogin(login);
+        if (user != null) {
+            if (user.isBlock()) {
                 System.out.println("User " + user.getLogin() + " blocked");
                 user.setBlock(true);
+            } else {
+                System.out.println("User " + user.getLogin() + " is already blocked");
             }
             userDao.update(user);
         } else {
