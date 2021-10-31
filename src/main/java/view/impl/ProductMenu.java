@@ -45,6 +45,8 @@ public class ProductMenu implements Menu {
     }
 
     private void addProductToOrder() {
+        System.out.println("Temporarily unavailable");
+        show();
     }
 
     private void addProduct() {
