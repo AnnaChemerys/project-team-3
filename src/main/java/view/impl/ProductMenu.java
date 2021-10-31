@@ -10,6 +10,7 @@ import view.Menu;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class ProductMenu implements Menu {
     private final User.UserRole currentRole = CurrentUser.user.getRole();
@@ -78,26 +79,83 @@ public class ProductMenu implements Menu {
         Product product = new Product(price, name, amount, category);
         for (Product p : productDao.getAll()) {
             if (Float.compare(p.getPrice(), product.getPrice()) == 0 && p.getName().equals(product.getName()) && p.getCategory() == product.getCategory()) {
-                p.setAmount(p.getAmount() + product.getAmount());
-                productDao.update(p);
                 exists = true;
                 break;
             }
         }
         boolean isValid = price != -1 && amount != -1 && category != null;
 
+        if (exists) {
+            System.out.println("This product already exists");
+        }
+
         if (isValid && !exists) {
             productDao.save(product);
         }
 
-        if(!isValid){
+        if (!isValid) {
             System.out.println("Incorrect input!");
         }
         show();
     }
 
     private void editProduct() {
-        System.out.println("Temporarily unavailable");
+        boolean exists = false;
+        ProductDao productDao = new ProductDaoImpl();
+        System.out.print("Enter product ID: ");
+
+        int productId = -1;
+        try {
+            productId = scanner.nextInt();
+        } catch (InputMismatchException ignored) {
+        }
+        if (productId != -1 || productDao.getAll().stream().map(Product::getId).collect(Collectors.toList()).contains(productId)) {
+            Product product = productDao.getById(productId);
+            System.out.print("Enter product name: ");
+            scanner.nextLine();
+            String name = scanner.nextLine();
+            System.out.print("Enter product price (delim: \",\"): ");
+            float price = -1;
+            try {
+                price = scanner.nextFloat();
+            } catch (InputMismatchException ignored) {
+            }
+
+            System.out.print("Enter product amount: ");
+            int amount = -1;
+            try {
+                amount = scanner.nextInt();
+            } catch (InputMismatchException ignored) {
+            }
+
+            System.out.print("Enter product category: ");
+            scanner.nextLine();
+            ProductCategories category = ProductCategories.parse(scanner.nextLine().toUpperCase());
+
+            boolean isValid = price != -1 && amount != -1 && category != null;
+            if (!isValid) {
+                System.out.println("Incorrect input!");
+            } else {
+                for (Product p : productDao.getAll()) {
+                    if (p.equals(product)) continue;
+                    if (Float.compare(p.getPrice(), price) == 0 && p.getName().equals(name) && p.getCategory() == category) {
+                        exists = true;
+                        break;
+                    }
+                }
+                if (exists) {
+                    System.out.println("You already have such product");
+                } else {
+                    product.setName(name);
+                    product.setAmount(amount);
+                    product.setCategory(category);
+                    product.setPrice(price);
+                    productDao.update(product);
+                }
+            }
+        } else {
+            System.out.println("No product with such ID");
+        }
         show();
     }
 
