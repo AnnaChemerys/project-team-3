@@ -1,13 +1,15 @@
 package view.impl;
 
+import service.UserService;
+import service.UserServiceImpl;
 import view.Menu;
 
 import java.util.Scanner;
 
-public class UserMainMenu implements Menu {
+public class AdminMainMenu implements Menu {
 
-
-    private final String[] items = {"1. Product menu", "2. My orders", "(3. Message admin)", "0. Exit"};
+    private final UserService userService = new UserServiceImpl();
+    private final String[] items = {"1. Users menu", "2. Orders menu", "3. Products menu", "0. Exit"};
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -18,24 +20,18 @@ public class UserMainMenu implements Menu {
         //noinspection InfiniteLoopStatement
         while (true) {
             int choice = scanner.nextInt();
-            scanner.nextLine();
 
             switch (choice) {
-                case 1 -> new ProductMenu().show();
-                case 2 -> myOrders();
-                case 3 -> messageAdmin();
+                case 1 -> new UsersMenu().show();
+                case 2 -> ordersMenu();
+                case 3 -> new ProductMenu().show();
                 case 0 -> exit();
             }
 
         }
     }
 
-    private void messageAdmin() {
-        System.out.println("Temporarily unavailable");
-        show();
-    }
-
-    private void myOrders() {
+    private void ordersMenu() {
         System.out.println("Temporarily unavailable");
         show();
     }
@@ -44,4 +40,6 @@ public class UserMainMenu implements Menu {
     public void exit() {
         new LoginMenu().show();
     }
+
+
 }

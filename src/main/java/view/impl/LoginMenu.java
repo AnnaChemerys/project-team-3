@@ -1,7 +1,6 @@
 package view.impl;
 
 import dao.UserDao;
-import dao.UserDaoImpl;
 import model.User;
 import service.UserService;
 import service.UserServiceImpl;
@@ -37,18 +36,22 @@ public class LoginMenu implements Menu {
     }
 
     private void loginSubMenu() {
-        UserDao userDao = new UserDaoImpl();
+        UserDao userDao = new UserDao();
         System.out.println("Input login:");
         scanner.nextLine();
         String login = scanner.nextLine();
 
         System.out.println("Input password:");
         String password = scanner.nextLine();
-
-        if (userService.login(login, password)) {
-            CurrentUser.user = userDao.getByLogin(login);
+        User user = userService.login(login, password);
+        if (user != null) {
             System.out.println("Successfully authorization");
-            new UserMainMenu().show();
+            CurrentUser.user = user;
+            if (user.getRole().equals(User.UserRole.USER)) {
+                new UserMainMenu().show();
+            } else {
+                new AdminMainMenu().show();
+            }
         } else {
             System.out.println("Wrong username/password");
             show();

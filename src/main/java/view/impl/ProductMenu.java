@@ -1,7 +1,6 @@
 package view.impl;
 
 import dao.ProductDao;
-import dao.ProductDaoImpl;
 import model.Product;
 import model.ProductCategories;
 import model.User;
@@ -55,7 +54,7 @@ public class ProductMenu implements Menu {
 
     private void addProduct() {
         boolean exists = false;
-        ProductDao productDao = new ProductDaoImpl();
+        ProductDao productDao = new ProductDao();
         System.out.print("Enter product name: ");
         scanner.nextLine();
         String name = scanner.nextLine();
@@ -101,15 +100,15 @@ public class ProductMenu implements Menu {
 
     private void editProduct() {
         boolean exists = false;
-        ProductDao productDao = new ProductDaoImpl();
+        ProductDao productDao = new ProductDao();
         System.out.print("Enter product ID: ");
 
-        int productId = -1;
+        String productId = "-1";
         try {
-            productId = scanner.nextInt();
+            productId = String.valueOf(scanner.nextInt());
         } catch (InputMismatchException ignored) {
         }
-        if (productId != -1 || productDao.getAll().stream().map(Product::getId).collect(Collectors.toList()).contains(productId)) {
+        if (!productId.equals("-1") || productDao.getAll().stream().map(Product::getId).collect(Collectors.toList()).contains(productId)) {
             Product product = productDao.getById(productId);
             System.out.print("Enter product name: ");
             scanner.nextLine();
@@ -120,7 +119,7 @@ public class ProductMenu implements Menu {
                 price = scanner.nextFloat();
             } catch (InputMismatchException ignored) {
             }
-
+            scanner.nextLine();
             System.out.print("Enter product amount: ");
             int amount = -1;
             try {
@@ -170,7 +169,7 @@ public class ProductMenu implements Menu {
     }
 
     private void productList() {
-        ProductDao productDao = new ProductDaoImpl();
+        ProductDao productDao = new ProductDao();
         if (productDao.getAll().size() <= 0) {
             System.out.println("----No products----");
         } else {

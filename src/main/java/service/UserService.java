@@ -13,11 +13,13 @@ public interface UserService {
      * @return outcome of login - success or not
      */
 
-    boolean login(String username, String password);
+    User login(String username, String password);
 
     void register(User user);
 
     boolean validateUser(User user);
 
+    void blockUser(String login);
 
+    void unblockUser(String login);
 }

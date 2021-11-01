@@ -1,13 +1,12 @@
 package view.impl;
 
 import dao.UserDao;
-import dao.UserDaoImpl;
 import view.Menu;
 
 import java.util.Scanner;
 
 public class OrdersMenu implements Menu {
-    private final UserDao userDao = new UserDaoImpl();
+    private final UserDao userDao = new UserDao();
     private final String[] items = new String[]{"1. Orders list", "2. Confirm/ unconfirm order", "0. Exit"};
     private final Scanner scanner = new Scanner(System.in);
 

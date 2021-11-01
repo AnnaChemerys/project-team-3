@@ -4,20 +4,28 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
-public class Order implements Serializable {
+public class Order implements Serializable, HasId {
 
+    private final String id;
     private User user;
     private List<Product> products;
     private boolean approved;
 
+    public Order() {
+        this.id = UUID.randomUUID().toString();
+    }
+
     public Order(User user, List<Product> products, boolean approved) {
+        this.id = UUID.randomUUID().toString();
         this.user = user;
         this.products = products;
         this.approved = approved;
     }
 
     public Order(User user) {
+        this.id = UUID.randomUUID().toString();
         this.user = user;
         this.products = new ArrayList<>();
         this.approved = false;
@@ -34,6 +42,10 @@ public class Order implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(user, products, approved);
+    }
+
+    public String getId() {
+        return id;
     }
 
     public User getUser() {

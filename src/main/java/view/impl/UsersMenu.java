@@ -1,7 +1,6 @@
 package view.impl;
 
 import dao.UserDao;
-import dao.UserDaoImpl;
 import model.User;
 import view.Menu;
 
@@ -10,7 +9,6 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class UsersMenu implements Menu {
-    private final UserDao userDao = new UserDaoImpl();
     private final String[] items = new String[]{"1. Users list", "2. Block/ unblock user", "0. Exit"};
     private final Scanner scanner = new Scanner(System.in);
 
@@ -24,25 +22,14 @@ public class UsersMenu implements Menu {
             scanner.nextLine();
             switch (choice) {
                 case 1 -> showAllUsers();
-                case 2 -> blockUnblockUser();
+                case 2 -> new BlockUnblockUserMenu().show();
                 case 0 -> exit();
             }
         }
     }
 
-    private void blockUnblockUser() {
-        System.out.print("Choose user login: ");
-        String login = scanner.nextLine();
-        if(userDao.getAll().stream().map(User::getLogin).collect(Collectors.toList()).contains(login)){
-            System.out.println(userDao.getByLogin(login));
-            System.out.println("-----Blocking/Unblocking users-----");
-        } else {
-            System.out.println("Invalid login");
-        }
-        show();
-    }
-
     private void showAllUsers() {
+        UserDao userDao = new UserDao();
         List<User> userList = userDao.getAll().stream().filter(x -> x.getRole() == User.UserRole.USER).collect(Collectors.toList());
         if(userList.size() <= 0){
             System.out.println("---No users---");
