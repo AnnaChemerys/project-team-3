@@ -4,23 +4,41 @@ import model.Product;
 import model.ProductCategories;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-/**
- * Created by Igor on 10/8/2019.
- */
-public interface ProductDao {
+public class ProductDao extends AbstractDao<Product> {
 
-    void save(Product product);
+    @Override
+    protected String getFileName() {
+        return FileNames.PRODUCTS.getFileName();
+    }
 
-    void update(Product product);
+    @Override
+    public void update(Product product) {
+        List<Product> tempList = items;
+        for (Product productTemp : tempList) {
+            if (productTemp.getId() == product.getId()) {
+                productTemp.setName(product.getName());
+                productTemp.setPrice(product.getPrice());
+                productTemp.setAmount(product.getAmount());
+                productTemp.setCategory(product.getCategory());
+            }
+        }
+        fileOperation.writeIntoFile(tempList, filename);
+        items = tempList;
+    }
 
-    void delete(Product product);
 
-    List<Product> searchBy(String name);
+    public List<Product> searchBy(String text) {
+        return items.stream()
+                .filter(item -> item.getName().contains(text))
+                .collect(Collectors.toList());
+    }
 
-    List<Product> getAll();
 
-    Product getById(long id);
-
-    List<Product> getByCategory(ProductCategories category);
+    public List<Product> getByCategory(ProductCategories category) {
+        return items.stream()
+                .filter(item -> item.getCategory().equals(category))
+                .collect(Collectors.toList());
+    }
 }

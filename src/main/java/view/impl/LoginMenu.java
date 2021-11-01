@@ -49,10 +49,14 @@ public class LoginMenu implements Menu {
 
         System.out.println("Input password:");
         String password = scanner.nextLine();
-
-        if (userService.login(login, password)) {
+        User user = userService.login(login, password);
+        if (user != null) {
             System.out.println("Successfully authorization");
-            new ProductMenu().show();
+            if (user.getRole().equals(User.UserRole.USER)) {
+                new UserMainMenu().show();
+            } else {
+                new AdminMainMenu().show();
+            }
         } else {
             System.out.println("Wrong username/password");
             show();

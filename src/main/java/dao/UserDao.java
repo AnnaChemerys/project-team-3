@@ -4,19 +4,34 @@ import model.User;
 
 import java.util.List;
 
-/**
- * Created by Igor on 10/8/2019.
- */
-public interface UserDao {
+public class UserDao extends AbstractDao<User> {
 
-    void save(User user);
+    @Override
+    protected String getFileName() {
+        return FileNames.USERS.getFileName();
+    }
 
-    void update(User user);
+    @Override
+    public void update(User user) {
+        List<User> tempList = items;
+        for (User userTemp : tempList) {
+            if (userTemp.equals(user)) {
+                userTemp.setRole(user.getRole());
+                userTemp.setPassword(user.getPassword());
+                userTemp.setBlock(user.isBlock());
+            }
+        }
+        fileOperation.writeIntoFile(tempList, filename);
+        items = tempList;
+    }
 
-    void delete(User user);
-
-    User getByLogin(String login);
-
-    List<User> getAll();
-
+    public User getByLogin(String login) {
+        List<User> tempList = items;
+        for (User userTemp : tempList) {
+            if (userTemp.getLogin().equals(login)) {
+                return userTemp;
+            }
+        }
+        return null;
+    }
 }
