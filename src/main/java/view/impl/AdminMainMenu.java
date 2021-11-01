@@ -23,17 +23,12 @@ public class AdminMainMenu implements Menu {
 
             switch (choice) {
                 case 1 -> new UsersMenu().show();
-                case 2 -> ordersMenu();
+                case 2 -> new OrdersMenu().show();
                 case 3 -> new ProductMenu().show();
                 case 0 -> exit();
             }
 
         }
-    }
-
-    private void ordersMenu() {
-        System.out.println("Temporarily unavailable");
-        show();
     }
 
     @Override

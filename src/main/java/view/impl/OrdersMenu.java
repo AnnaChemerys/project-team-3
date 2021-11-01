@@ -38,6 +38,6 @@ public class OrdersMenu implements Menu {
 
     @Override
     public void exit() {
-        new UserMainMenu().show();
+        new AdminMainMenu().show();
     }
 }
