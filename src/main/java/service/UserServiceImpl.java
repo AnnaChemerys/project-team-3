@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     public void unblockUser(String login) {
         User user = userDao.getByLogin(login);
         if (user != null) {
-            if (!user.isBlock()) {
+            if (user.isBlock()) {
                 System.out.println("User " + user.getLogin() + " unblocked");
                 user.setBlock(false);
             } else {
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
     public void blockUser(String login) {
         User user = userDao.getByLogin(login);
         if (user != null) {
-            if (user.isBlock()) {
+            if (!user.isBlock()) {
                 System.out.println("User " + user.getLogin() + " blocked");
                 user.setBlock(true);
             } else {
