@@ -37,6 +37,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
     public void approve(Order order) {
         if (!order.isApproved()) {
             order.setApproved(true);
@@ -46,11 +47,24 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
     public List<Order> getOrders() {
         return orderDao.getAll();
     }
 
+    @Override
     public Order getOrderByUser() {
         return orderDao.getOrderByUser(CurrentUser.user);
+    }
+
+    @Override
+    public List<Order> getAllNotApprovedOrders() {
+        List<Order> notApprovedOrders = new ArrayList<>();
+        for (Order order: orderDao.getAll()) {
+            if (!order.isApproved()){
+                notApprovedOrders.add(order);
+             }
+        }
+        return notApprovedOrders;
     }
 }
