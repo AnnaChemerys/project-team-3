@@ -22,4 +22,5 @@ public interface ProductService {
 
     List<Product> searchProductsByCategory(ProductCategories category);
 
+    Product getProductById(String Id);
 }

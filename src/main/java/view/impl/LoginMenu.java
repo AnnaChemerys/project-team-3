@@ -9,6 +9,7 @@ import view.Menu;
 import java.util.Scanner;
 
 public class LoginMenu implements Menu {
+
     private final UserService userService = new UserServiceImpl();
     private final String[] items = {"1.Login", "2.User registration", "3.Administrator registration", "0. Exit"};
     private final Scanner scanner = new Scanner(System.in);

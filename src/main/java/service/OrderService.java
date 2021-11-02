@@ -18,4 +18,6 @@ public interface OrderService {
     Order getOrderByUser();
 
     List<Order> getAllNotApprovedOrders();
+
+    Order getOrderById(String id);
 }

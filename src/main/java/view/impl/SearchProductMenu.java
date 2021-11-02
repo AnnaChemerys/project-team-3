@@ -1,18 +1,20 @@
 package view.impl;
 
-import dao.AbstractDao;
-import dao.ProductDao;
 import model.Product;
 import model.ProductCategories;
+import service.ProductService;
+import service.ProductServiceImpl;
 import view.Menu;
 
+import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class SearchProductMenu implements Menu {
-    private final AbstractDao<Product> productDao = new ProductDao();
+
+    private final ProductService productService = new ProductServiceImpl();
     private final String[] items = {"1. Search by name", "2. Search by category", "0. Exit"};
     private final Scanner scanner = new Scanner(System.in);
+
     @Override
     public void show() {
         showItems(items);
@@ -34,11 +36,10 @@ public class SearchProductMenu implements Menu {
         ProductCategories categories = null;
         try {
             categories = ProductCategories.valueOf(scanner.nextLine().toUpperCase());
-        } catch (Exception ignored){
+        } catch (Exception ignored) {
         }
-        if (productDao.getAll().stream().map(Product::getCategory).collect(Collectors.toList()).contains(categories)){
-            ProductCategories finalCategories = categories;
-            productDao.getAll().stream().filter(x -> x.getCategory().equals(finalCategories)).forEach(System.out::println);
+        if (productService.searchProductsByCategory(categories).size() > 0) {
+            productService.searchProductsByCategory(categories).stream().forEach(System.out::println);
         } else {
             System.out.println("There is no products with this category");
         }
@@ -48,9 +49,9 @@ public class SearchProductMenu implements Menu {
     private void searchByName() {
         System.out.println("Enter product name:");
         String productName = scanner.nextLine();
-        if (productDao.getAll().stream().map(Product::getName).collect(Collectors.toList()).contains(productName)){
-            //noinspection OptionalGetWithoutIsPresent
-            System.out.println(productDao.getAll().stream().filter(x -> x.getName().equals(productName)).findFirst().get());
+        List<Product> products = productService.searchProducts(productName);
+        if (products.size() > 0) {
+            products.stream().forEach(System.out::println);
         } else {
             System.out.println("There is no product with this name");
         }

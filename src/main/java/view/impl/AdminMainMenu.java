@@ -1,14 +1,11 @@
 package view.impl;
 
-import service.UserService;
-import service.UserServiceImpl;
 import view.Menu;
 
 import java.util.Scanner;
 
 public class AdminMainMenu implements Menu {
 
-    private final UserService userService = new UserServiceImpl();
     private final String[] items = {"1. Users menu", "2. Orders menu", "3. Products menu", "0. Exit"};
 
     private final Scanner scanner = new Scanner(System.in);

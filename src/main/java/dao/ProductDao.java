@@ -4,7 +4,6 @@ import model.Product;
 import model.ProductCategories;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ProductDao extends AbstractDao<Product> {

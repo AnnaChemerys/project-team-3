@@ -64,4 +64,9 @@ public class UserServiceImpl implements UserService {
             System.out.println("User not exists");
         }
     }
+
+    @Override
+    public List<User> getAll() {
+        return userDao.getAll();
+    }
 }

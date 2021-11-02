@@ -88,4 +88,9 @@ public class OrderServiceImpl implements OrderService {
         }
         return notApprovedOrders;
     }
+
+    public Order getOrderById(String id) {
+        return orderDao.getById(id);
+    }
+
 }
