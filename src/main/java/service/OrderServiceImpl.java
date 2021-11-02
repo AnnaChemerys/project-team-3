@@ -13,13 +13,14 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderDao orderDao = new OrderDao();
     private final ProductDao productDao = new ProductDao();
+    private final ProductService productService = new ProductServiceImpl();
 
     @Override
     public void addProductToOrder(Product product, int amount) {
         if (!isValidProductForOrder(product, amount)) return;
         Order existingOrder = orderDao.getOrderByUser(CurrentUser.user);
         product.setAmount(product.getAmount() - amount);
-        Product tempProduct = new Product(product.getPrice(), product.getName(), amount, product.getCategory());
+        Product tempProduct = new Product(product.getId(), product.getPrice(), product.getName(), amount, product.getCategory());
         if (existingOrder == null) {
             List<Product> newProduct = new ArrayList<>();
             newProduct.add(tempProduct);
@@ -53,19 +54,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void refuse(Order order) {
+        approve(order);
         List<Product> products = new ArrayList<>();
         for (Product initialProduct : productDao.getAll()) {
             for (Product refusedProduct : order.getProducts()) {
                 if (initialProduct.getId().equals(refusedProduct.getId())) {
-                    products.add(new Product(initialProduct.getPrice(), initialProduct.getName(), initialProduct.getAmount() + refusedProduct.getAmount(), initialProduct.getCategory()));
+                    products.add(new Product(initialProduct.getId(), initialProduct.getPrice(), initialProduct.getName(), initialProduct.getAmount() + refusedProduct.getAmount(), initialProduct.getCategory()));
                 }
             }
         }
         for (Product product : products) {
-            productDao.update(product);
+            productService.updateProduct(product);
         }
-        orderDao.getAll().remove(order);
-        orderDao.update(order);
     }
 
     @Override

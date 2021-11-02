@@ -38,7 +38,7 @@ public class UserMainMenu implements Menu {
     }
 
     private void myOrders() {
-        System.out.println(orderService.getOrderByUser());
+        System.out.println(orderService.getOrderByUser() == null ? "-----No orders-----" : orderService.getOrderByUser());
         show();
     }
 

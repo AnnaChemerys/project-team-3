@@ -27,6 +27,14 @@ public class Product implements Serializable, HasId {
         this.category = category;
     }
 
+    public Product(String id, float price, String name, int amount, ProductCategories category) {
+        this.id = id;
+        this.price = price;
+        this.name = name;
+        this.amount = amount;
+        this.category = category;
+    }
+
     public String getId() {
         return id;
     }
