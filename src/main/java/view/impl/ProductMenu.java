@@ -74,7 +74,12 @@ public class ProductMenu implements Menu {
 
         System.out.print("Enter product category: ");
         scanner.nextLine();
-        ProductCategories category = ProductCategories.parse(scanner.nextLine().toUpperCase());
+        ProductCategories category;
+        try {
+            category = ProductCategories.valueOf(scanner.nextLine().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            category = null;
+        }
         Product product = new Product(price, name, amount, category);
         for (Product p : productDao.getAll()) {
             if (Float.compare(p.getPrice(), product.getPrice()) == 0 && p.getName().equals(product.getName()) && p.getCategory() == product.getCategory()) {
@@ -102,16 +107,15 @@ public class ProductMenu implements Menu {
         boolean exists = false;
         ProductDao productDao = new ProductDao();
         System.out.print("Enter product ID: ");
-
+        scanner.nextLine();
         String productId = "-1";
         try {
-            productId = String.valueOf(scanner.nextInt());
+            productId = scanner.nextLine();
         } catch (InputMismatchException ignored) {
         }
         if (!productId.equals("-1") || productDao.getAll().stream().map(Product::getId).collect(Collectors.toList()).contains(productId)) {
             Product product = productDao.getById(productId);
             System.out.print("Enter product name: ");
-            scanner.nextLine();
             String name = scanner.nextLine();
             System.out.print("Enter product price (delim: \",\"): ");
             float price = -1;
@@ -129,8 +133,13 @@ public class ProductMenu implements Menu {
 
             System.out.print("Enter product category: ");
             scanner.nextLine();
-            ProductCategories category = ProductCategories.parse(scanner.nextLine().toUpperCase());
-
+            ProductCategories category;
+            try {
+                category = ProductCategories.valueOf(scanner.nextLine().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                category = null;
+            }
+            System.out.println(category);
             boolean isValid = price != -1 && amount != -1 && category != null;
             if (!isValid) {
                 System.out.println("Incorrect input!");
