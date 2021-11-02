@@ -24,7 +24,8 @@ public abstract class AbstractDao<T extends HasId> {
         tempList.add(t);
 
         fileOperation.writeIntoFile(tempList, filename);
-        items.add(t);
+
+        items = tempList;
     }
 
     public abstract void update(T t);
