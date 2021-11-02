@@ -3,6 +3,9 @@ package service;
 
 import model.User;
 
+import java.util.Arrays;
+import java.util.List;
+
 public interface UserService {
 
     /**
@@ -22,4 +25,6 @@ public interface UserService {
     void blockUser(String login);
 
     void unblockUser(String login);
+
+    List<User> getAll();
 }

@@ -28,6 +28,10 @@ public class Order implements Serializable, HasId {
         this.approved = approved;
     }
 
+    public float countTotal() {
+        return products.stream().map(x -> x.getPrice() * x.getAmount()).reduce(0f, Float::sum);
+    }
+
     public Order(User user) {
         this.id = UUID.randomUUID().toString();
         this.user = user;
@@ -78,5 +82,16 @@ public class Order implements Serializable, HasId {
 
     public void setApproved(boolean approved) {
         this.approved = approved;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id='" + id + '\'' +
+                ", user=" + user +
+                ", products=" + products +
+                ", approved=" + approved +
+                ", totalPrice=" + countTotal() +
+                '}';
     }
 }

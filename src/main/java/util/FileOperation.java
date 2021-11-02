@@ -21,6 +21,6 @@ public class FileOperation<T> {
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
-        return new ArrayList<T>();
+        return new ArrayList<>();
     }
 }

@@ -1,10 +1,12 @@
 package model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
 
 public class Product implements Serializable, HasId {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final String id;
@@ -19,6 +21,14 @@ public class Product implements Serializable, HasId {
 
     public Product(float price, String name, int amount, ProductCategories category) {
         this.id = UUID.randomUUID().toString();
+        this.price = price;
+        this.name = name;
+        this.amount = amount;
+        this.category = category;
+    }
+
+    public Product(String id, float price, String name, int amount, ProductCategories category) {
+        this.id = id;
         this.price = price;
         this.name = name;
         this.amount = amount;
