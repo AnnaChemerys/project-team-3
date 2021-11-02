@@ -108,12 +108,9 @@ public class ProductMenu implements Menu {
         ProductDao productDao = new ProductDao();
         System.out.print("Enter product ID: ");
         scanner.nextLine();
-        String productId = "-1";
-        try {
-            productId = scanner.nextLine();
-        } catch (InputMismatchException ignored) {
-        }
-        if (!productId.equals("-1") || productDao.getAll().stream().map(Product::getId).collect(Collectors.toList()).contains(productId)) {
+        String productId = scanner.nextLine();
+
+        if (productDao.getAll().stream().map(Product::getId).collect(Collectors.toList()).contains(productId)) {
             Product product = productDao.getById(productId);
             System.out.print("Enter product name: ");
             String name = scanner.nextLine();
@@ -139,7 +136,6 @@ public class ProductMenu implements Menu {
             } catch (IllegalArgumentException e) {
                 category = null;
             }
-            System.out.println(category);
             boolean isValid = price != -1 && amount != -1 && category != null;
             if (!isValid) {
                 System.out.println("Incorrect input!");
