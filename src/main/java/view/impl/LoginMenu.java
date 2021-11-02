@@ -43,12 +43,17 @@ public class LoginMenu implements Menu {
         String password = scanner.nextLine();
         User user = userService.login(login, password);
         if (user != null) {
-            System.out.println("Successfully authorization");
             CurrentUser.user = user;
-            if (user.getRole().equals(User.UserRole.USER)) {
-                new UserMainMenu().show();
+            if (user.isBlock()) {
+                System.out.println("Access Denied: This user is blocked");
+                new LoginMenu().show();
             } else {
-                new AdminMainMenu().show();
+                System.out.println("Successfully authorization");
+                if (user.getRole().equals(User.UserRole.USER)) {
+                    new UserMainMenu().show();
+                } else {
+                    new AdminMainMenu().show();
+                }
             }
         } else {
             System.out.println("Wrong username/password");
