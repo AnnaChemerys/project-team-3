@@ -76,6 +76,8 @@ public class ProductMenu implements Menu {
             System.out.println("Enter amount: ");
             int productAmount = scanner.nextInt();
             orderService.addProductToOrder(productToAdd, productAmount);
+            System.out.println("Product was successfully added");
+
         } else {
             System.out.println("Invalid ID");
         }
