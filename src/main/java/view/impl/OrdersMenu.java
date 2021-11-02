@@ -46,7 +46,6 @@ public class OrdersMenu implements Menu {
         Order order = orderService.getOrderById(id);
 
         if (order != null) {
-            //noinspection OptionalGetWithoutIsPresent
             System.out.println(order);
             System.out.println("Press 1 to approve order\n" +
                     "Press 2 to refuse order");
