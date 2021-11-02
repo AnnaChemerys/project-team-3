@@ -6,6 +6,7 @@ import service.ProductService;
 import service.ProductServiceImpl;
 import view.Menu;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,8 +22,14 @@ public class SearchProductMenu implements Menu {
 
         //noinspection InfiniteLoopStatement
         while (true) {
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = -1;
+            try {
+                choice = scanner.nextInt();
+            } catch (InputMismatchException ignored) {
+                System.out.println("Incorrect input");
+                scanner.nextLine();
+                show();
+            }
             switch (choice) {
                 case 1 -> searchByName();
                 case 2 -> searchByCategory();

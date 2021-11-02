@@ -5,6 +5,7 @@ import service.UserService;
 import service.UserServiceImpl;
 import view.Menu;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -21,7 +22,14 @@ public class UsersMenu implements Menu {
 
         //noinspection InfiniteLoopStatement
         while (true) {
-            int choice = scanner.nextInt();
+            int choice = -1;
+            try {
+                choice = scanner.nextInt();
+            } catch (InputMismatchException ignored) {
+                System.out.println("Incorrect input");
+                scanner.nextLine();
+                show();
+            }
             scanner.nextLine();
             switch (choice) {
                 case 1 -> showAllUsers();
@@ -58,8 +66,16 @@ public class UsersMenu implements Menu {
                     "Press 2 to unlock the user");
             int blockUnblock = scanner.nextInt();
             switch (blockUnblock) {
-                case 1 -> userService.blockUser(login);
-                case 2 -> userService.unblockUser(login);
+                case 1 -> {
+                    userService.blockUser(login);
+                    System.out.println("User was blocked");
+                }
+
+                case 2 -> {
+                    userService.unblockUser(login);
+                    System.out.println("User was unblocked");
+                }
+
             }
         } else {
             System.out.println("Invalid login");

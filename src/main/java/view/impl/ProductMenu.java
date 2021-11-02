@@ -33,7 +33,14 @@ public class ProductMenu implements Menu {
 
         //noinspection InfiniteLoopStatement
         while (true) {
-            int choice = scanner.nextInt();
+            int choice = -1;
+            try {
+                choice = scanner.nextInt();
+            } catch (InputMismatchException ignored) {
+                System.out.println("Incorrect input");
+                scanner.nextLine();
+                show();
+            }
             switch (currentRole) {
                 case USER -> {
                     switch (choice) {
@@ -80,7 +87,10 @@ public class ProductMenu implements Menu {
         System.out.print("Enter product name: ");
         scanner.nextLine();
         String name = scanner.nextLine();
+
         System.out.print("Enter product price (delim: \",\"): ");
+        scanner.nextLine();
+
         float price = -1;
         try {
             price = scanner.nextFloat();
@@ -88,6 +98,8 @@ public class ProductMenu implements Menu {
         }
 
         System.out.print("Enter product amount: ");
+        scanner.nextLine();
+
         int amount = -1;
         try {
             amount = scanner.nextInt();
@@ -105,6 +117,7 @@ public class ProductMenu implements Menu {
         Product product = new Product(price, name, amount, category);
 
         productService.saveProduct(product);
+        System.out.println("Product was added successfully");
 
         show();
     }
@@ -120,17 +133,22 @@ public class ProductMenu implements Menu {
         if (productToAdd != null) {
 
             System.out.print("Enter product name: ");
+            scanner.nextLine();
+
             String name = scanner.nextLine();
 
             System.out.print("Enter product price (delim: \",\"): ");
+            scanner.nextLine();
+
             float price = -1;
             try {
                 price = scanner.nextFloat();
             } catch (InputMismatchException ignored) {
             }
 
-            scanner.nextLine();
             System.out.print("Enter product amount: ");
+            scanner.nextLine();
+
             int amount = -1;
             try {
                 amount = scanner.nextInt();
@@ -151,6 +169,7 @@ public class ProductMenu implements Menu {
             productToAdd.setCategory(category);
             productToAdd.setPrice(price);
             productService.updateProduct(productToAdd);
+            System.out.println("Product was changed successfully");
         } else {
             System.out.println("No product with such ID");
         }

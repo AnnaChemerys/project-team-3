@@ -5,6 +5,7 @@ import service.OrderService;
 import service.OrderServiceImpl;
 import view.Menu;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,8 +21,14 @@ public class OrdersMenu implements Menu {
 
         //noinspection InfiniteLoopStatement
         while (true) {
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = -1;
+            try {
+                choice = scanner.nextInt();
+            } catch (InputMismatchException ignored) {
+                System.out.println("Incorrect input");
+                scanner.nextLine();
+                show();
+            }
             switch (choice) {
                 case 1 -> showAllOrders();
                 case 2 -> confirmUnconfirmOrders();
@@ -52,8 +59,15 @@ public class OrdersMenu implements Menu {
                     "Press 2 to refuse order");
             int approveOrder = scanner.nextInt();
             switch (approveOrder) {
-                case 1 -> orderService.approve(order);
-                case 2 -> orderService.refuse(order);
+                case 1 -> {
+                    orderService.approve(order);
+                    System.out.println("Order was approved successfully");
+                }
+                case 2 -> {
+                    orderService.refuse(order);
+                    System.out.println("Order was refused successfully");
+                }
+
             }
         } else {
             System.out.println("Invalid ID");

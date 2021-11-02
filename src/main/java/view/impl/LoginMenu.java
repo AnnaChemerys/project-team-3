@@ -6,6 +6,7 @@ import service.UserServiceImpl;
 import util.CurrentUser;
 import view.Menu;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class LoginMenu implements Menu {
@@ -20,7 +21,14 @@ public class LoginMenu implements Menu {
 
         //noinspection InfiniteLoopStatement
         while (true) {
-            int choice = scanner.nextInt();
+            int choice = -1;
+            try {
+                choice = scanner.nextInt();
+            } catch (InputMismatchException ignored) {
+                System.out.println("Incorrect input");
+                scanner.nextLine();
+                show();
+            }
             switch (choice) {
                 case 1 -> loginSubMenu();
                 case 2 -> registerUser();
@@ -67,6 +75,7 @@ public class LoginMenu implements Menu {
 
         User user = new User(login, password, User.UserRole.USER);
         userService.register(user);
+        System.out.println("User was registered successfully ");
         show();
     }
 
@@ -80,6 +89,8 @@ public class LoginMenu implements Menu {
 
         User user = new User(login, password, User.UserRole.ADMIN);
         userService.register(user);
+
+        System.out.println("Admin was  registered successfully");
         show();
     }
 }

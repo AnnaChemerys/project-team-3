@@ -2,6 +2,7 @@ package view.impl;
 
 import view.Menu;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class AdminMainMenu implements Menu {
@@ -16,7 +17,14 @@ public class AdminMainMenu implements Menu {
 
         //noinspection InfiniteLoopStatement
         while (true) {
-            int choice = scanner.nextInt();
+            int choice = -1;
+            try {
+                choice = scanner.nextInt();
+            } catch (InputMismatchException ignored) {
+                System.out.println("Incorrect input");
+                scanner.nextLine();
+                show();
+            }
 
             switch (choice) {
                 case 1 -> new UsersMenu().show();

@@ -4,6 +4,7 @@ import service.OrderService;
 import service.OrderServiceImpl;
 import view.Menu;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UserMainMenu implements Menu {
@@ -19,8 +20,14 @@ public class UserMainMenu implements Menu {
 
         //noinspection InfiniteLoopStatement
         while (true) {
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = -1;
+            try {
+                choice = scanner.nextInt();
+            } catch (InputMismatchException ignored) {
+                System.out.println("Incorrect input");
+                scanner.nextLine();
+                show();
+            }
 
             switch (choice) {
                 case 1 -> new ProductMenu().show();
