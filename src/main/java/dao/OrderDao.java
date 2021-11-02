@@ -26,8 +26,7 @@ public class OrderDao extends AbstractDao<Order> {
     }
 
     public Order getOrderByUser(User user) {
-        List<Order> tempList = items;
-        for (Order orderTemp : tempList) {
+        for (Order orderTemp : items) {
             if (orderTemp.getUser() != null && orderTemp.getUser().equals(user) && orderTemp.isApproved() == false) {
                 return orderTemp;
             }
