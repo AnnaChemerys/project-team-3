@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    void addProductToOrder(Product product) throws Exception;
+    void addProductToOrder(Product product);
 
     void approve(Order order);
 
