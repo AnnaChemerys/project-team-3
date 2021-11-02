@@ -14,7 +14,7 @@ public class OrderServiceImpl implements OrderService {
     private ProductDao productDao = new ProductDao();
 
     @Override
-    public void addProductToOrder(Product product) throws Exception {
+    public void addProductToOrder(Product product) {
 
         isValidProductForOrder(product);
         Order existingOrder = orderDao.getOrderByUser(CurrentUser.user);
@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private void isValidProductForOrder(Product product) throws Exception {
+    private void isValidProductForOrder(Product product) {
         Product tempProduct = productDao.getById(product.getId());
         if (tempProduct.getAmount() == 0) {
             System.out.println("Product amount is not enough.");
