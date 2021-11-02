@@ -1,12 +1,14 @@
 package view.impl;
 
+import service.OrderService;
+import service.OrderServiceImpl;
 import view.Menu;
 
 import java.util.Scanner;
 
 public class UserMainMenu implements Menu {
 
-
+    private final OrderService orderService = new OrderServiceImpl();
     private final String[] items = {"1. Product menu", "2. My orders", "(3. Message admin)", "0. Exit"};
 
     private final Scanner scanner = new Scanner(System.in);
@@ -36,7 +38,7 @@ public class UserMainMenu implements Menu {
     }
 
     private void myOrders() {
-        System.out.println("Temporarily unavailable");
+        System.out.println(orderService.getOrderByUser());
         show();
     }
 

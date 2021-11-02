@@ -18,7 +18,7 @@ public class ProductDao extends AbstractDao<Product> {
     public void update(Product product) {
         List<Product> tempList = items;
         for (Product productTemp : tempList) {
-            if (Objects.equals(productTemp.getId(), product.getId())) {
+            if (productTemp.getId().equals(product.getId())) {
                 productTemp.setName(product.getName());
                 productTemp.setPrice(product.getPrice());
                 productTemp.setAmount(product.getAmount());

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
 
-    private ProductDao productDao = new ProductDao();
+    private final ProductDao productDao = new ProductDao();
 
     public void saveProduct(Product product) {
         isValidProduct(product);

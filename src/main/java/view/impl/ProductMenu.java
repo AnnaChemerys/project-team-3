@@ -1,9 +1,12 @@
 package view.impl;
 
+import dao.AbstractDao;
 import dao.ProductDao;
 import model.Product;
 import model.ProductCategories;
 import model.User;
+import service.OrderService;
+import service.OrderServiceImpl;
 import util.CurrentUser;
 import view.Menu;
 
@@ -12,6 +15,8 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class ProductMenu implements Menu {
+    private final AbstractDao<Product> productDao = new ProductDao();
+    private final OrderService orderService = new OrderServiceImpl();
     private final User.UserRole currentRole = CurrentUser.user.getRole();
     private final String[] items = currentRole == User.UserRole.USER
             ? new String[]{"1. Product list", "2. Search product", "3. Add product to order", "4. Order checkout", "0. Exit"}
@@ -29,7 +34,7 @@ public class ProductMenu implements Menu {
                 case USER -> {
                     switch (choice) {
                         case 1 -> productList();
-                        case 2 -> searchProduct();
+                        case 2 -> new SearchProductMenu().show();
                         case 3 -> addProductToOrder();
                         case 4 -> orderCheckout();
                         case 0 -> exit();
@@ -48,13 +53,24 @@ public class ProductMenu implements Menu {
     }
 
     private void addProductToOrder() {
-        System.out.println("Temporarily unavailable");
+        System.out.println("Enter order ID: ");
+        scanner.nextLine();
+        String id = scanner.nextLine();
+        if (productDao.getAll().stream().map(Product::getId).collect(Collectors.toList()).contains(id)) {
+            //noinspection OptionalGetWithoutIsPresent
+            Product product = productDao.getAll().stream().filter(x -> x.getId().equals(id)).findFirst().get();
+            System.out.println(product);
+            System.out.println("Enter amount: ");
+            int productAmount = scanner.nextInt();
+            orderService.addProductToOrder(product, productAmount);
+        } else {
+            System.out.println("Invalid ID");
+        }
         show();
     }
 
     private void addProduct() {
         boolean exists = false;
-        ProductDao productDao = new ProductDao();
         System.out.print("Enter product name: ");
         scanner.nextLine();
         String name = scanner.nextLine();
@@ -105,7 +121,6 @@ public class ProductMenu implements Menu {
 
     private void editProduct() {
         boolean exists = false;
-        ProductDao productDao = new ProductDao();
         System.out.print("Enter product ID: ");
         scanner.nextLine();
         String productId = scanner.nextLine();
@@ -165,16 +180,11 @@ public class ProductMenu implements Menu {
 
     private void orderCheckout() {
         System.out.println("Temporarily unavailable");
-        show();
-    }
 
-    private void searchProduct() {
-        System.out.println("Temporarily unavailable");
         show();
     }
 
     private void productList() {
-        ProductDao productDao = new ProductDao();
         if (productDao.getAll().size() <= 0) {
             System.out.println("----No products----");
         } else {
@@ -186,6 +196,10 @@ public class ProductMenu implements Menu {
 
     @Override
     public void exit() {
-        new UserMainMenu().show();
+        if(CurrentUser.user.getRole() == User.UserRole.USER){
+            new UserMainMenu().show();
+        } else {
+            new AdminMainMenu().show();
+        }
     }
 }

@@ -1,6 +1,5 @@
 package view.impl;
 
-import dao.UserDao;
 import model.User;
 import service.UserService;
 import service.UserServiceImpl;
@@ -36,7 +35,6 @@ public class LoginMenu implements Menu {
     }
 
     private void loginSubMenu() {
-        UserDao userDao = new UserDao();
         System.out.println("Input login:");
         scanner.nextLine();
         String login = scanner.nextLine();

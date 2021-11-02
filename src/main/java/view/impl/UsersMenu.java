@@ -12,6 +12,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class UsersMenu implements Menu {
+    private final AbstractDao<User> userDao = new UserDao();
     private final UserService userService = new UserServiceImpl();
     private final String[] items = new String[]{"1. Users list", "2. Block/ unblock user", "3. PM to user", "0. Exit"};
     private final Scanner scanner = new Scanner(System.in);
@@ -39,7 +40,6 @@ public class UsersMenu implements Menu {
     }
 
     private void showAllUsers() {
-        UserDao userDao = new UserDao();
         List<User> userList = userDao.getAll().stream().filter(x -> x.getRole() == User.UserRole.USER).collect(Collectors.toList());
         if (userList.size() <= 0) {
             System.out.println("---No users---");
@@ -51,7 +51,6 @@ public class UsersMenu implements Menu {
     }
 
     private void blockUnblockUser() {
-        AbstractDao<User> userDao = new UserDao();
         System.out.println("Enter username");
         String login = scanner.nextLine();
         if (userDao.getAll().stream().filter(x -> x.getRole() == User.UserRole.USER).map(User::getLogin).collect(Collectors.toList()).contains(login)) {
