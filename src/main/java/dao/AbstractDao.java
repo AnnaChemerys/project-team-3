@@ -20,8 +20,11 @@ public abstract class AbstractDao<T extends HasId> {
     protected abstract String getFileName();
 
     public void save(T t) {
-        fileOperation.writeIntoFile(items, filename);
-        items.add(t);
+        List<T> tempList = items;
+        tempList.add(t);
+
+        fileOperation.writeIntoFile(tempList, filename);
+        items = tempList;
     }
 
     public abstract void update(T t);
