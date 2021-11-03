@@ -11,10 +11,7 @@ import service.ProductServiceImpl;
 import util.CurrentUser;
 import view.Menu;
 
-import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class ProductMenu implements Menu {
 
@@ -88,16 +85,14 @@ public class ProductMenu implements Menu {
 
     private void addProduct() {
 
-        int cnt = 0;
-        Map<Integer, ProductCategories> categoryList = new HashMap<>();
-        for (ProductCategories categories : ProductCategories.values()) {
-            categoryList.put(++cnt, categories);
-        }
+        ArrayList<ProductCategories> categoryList = new ArrayList<>();
+        Collections.addAll(categoryList, ProductCategories.values());
         int categoryId = -1;
+        int wer = categoryList.size();
         while (categoryId <= 0 || categoryId > categoryList.size()) {
             System.out.println("Select product category: ");
-            for (int i = 1; i <= categoryList.size(); i++) {
-                System.out.println(i + ". " + categoryList.get(i));
+            for (int i = 0; i < categoryList.size(); i++) {
+                System.out.println(i+1 + ". " + categoryList.get(i));
             }
             if (!scanner.hasNextInt()) {
                 scanner.next();
@@ -105,20 +100,21 @@ public class ProductMenu implements Menu {
                 categoryId = scanner.nextInt();
             }
         }
+        --categoryId;
 
         boolean exists = false;
-        System.out.print("Enter product name: ");
+        System.out.print("Enter "+categoryList.get(categoryId)+" name: ");
         scanner.nextLine();
         String name = scanner.nextLine();
 
-        System.out.print("Enter product price (delim: \",\"): ");
+        System.out.print("Enter "+categoryList.get(categoryId)+" price (delim: \",\"): ");
         float price = -1;
         try {
             price = scanner.nextFloat();
         } catch (InputMismatchException ignored) {
         }
 
-        System.out.print("Enter product amount: ");
+        System.out.print("Enter "+categoryList.get(categoryId)+" amount: ");
         scanner.nextLine();
 
         int amount = -1;
