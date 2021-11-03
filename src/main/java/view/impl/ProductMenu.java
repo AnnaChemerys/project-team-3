@@ -11,7 +11,9 @@ import service.ProductServiceImpl;
 import util.CurrentUser;
 import view.Menu;
 
-import java.util.*;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 
 public class ProductMenu implements Menu {
 
@@ -85,17 +87,15 @@ public class ProductMenu implements Menu {
 
     private void addProduct() {
 
-        ArrayList<ProductCategories> categoryList = new ArrayList<>();
-        Collections.addAll(categoryList, ProductCategories.values());
         int categoryId = -1;
-        int wer = categoryList.size();
-        while (categoryId <= 0 || categoryId > categoryList.size()) {
+        while (categoryId <= 0 || categoryId > ProductCategories.values().length) {
             System.out.println("Select product category: ");
-            for (int i = 0; i < categoryList.size(); i++) {
-                System.out.println(i+1 + ". " + categoryList.get(i));
+            for (int i = 0; i < ProductCategories.values().length; i++) {
+                System.out.println(i + 1 + ". " + ProductCategories.values()[i]);
             }
             if (!scanner.hasNextInt()) {
                 scanner.next();
+                categoryId = -1;
             } else {
                 categoryId = scanner.nextInt();
             }
@@ -103,18 +103,18 @@ public class ProductMenu implements Menu {
         --categoryId;
 
         boolean exists = false;
-        System.out.print("Enter "+categoryList.get(categoryId)+" name: ");
+        System.out.print("Enter product name: ");
         scanner.nextLine();
         String name = scanner.nextLine();
 
-        System.out.print("Enter "+categoryList.get(categoryId)+" price (delim: \",\"): ");
+        System.out.print("Enter product price (delim: \",\"): ");
         float price = -1;
         try {
             price = scanner.nextFloat();
         } catch (InputMismatchException ignored) {
         }
 
-        System.out.print("Enter "+categoryList.get(categoryId)+" amount: ");
+        System.out.print("Enter product amount: ");
         scanner.nextLine();
 
         int amount = -1;
@@ -123,7 +123,7 @@ public class ProductMenu implements Menu {
         } catch (InputMismatchException ignored) {
         }
 
-        Product product = new Product(price, name, amount, categoryList.get(categoryId));
+        Product product = new Product(price, name, amount, ProductCategories.values()[categoryId]);
 
         productService.saveProduct(product);
         System.out.println("Product was added successfully");
