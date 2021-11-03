@@ -11,7 +11,9 @@ import service.ProductServiceImpl;
 import util.CurrentUser;
 import view.Menu;
 
+import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ProductMenu implements Menu {
@@ -85,14 +87,31 @@ public class ProductMenu implements Menu {
     }
 
     private void addProduct() {
+
+        int cnt = 0;
+        Map<Integer, ProductCategories> categoryList = new HashMap<>();
+        for (ProductCategories categories : ProductCategories.values()) {
+            categoryList.put(++cnt, categories);
+        }
+        int categoryId = -1;
+        while (categoryId <= 0 || categoryId > categoryList.size()) {
+            System.out.println("Select product category: ");
+            for (int i = 1; i <= categoryList.size(); i++) {
+                System.out.println(i + ". " + categoryList.get(i));
+            }
+            if (!scanner.hasNextInt()) {
+                scanner.next();
+            } else {
+                categoryId = scanner.nextInt();
+            }
+        }
+
         boolean exists = false;
         System.out.print("Enter product name: ");
         scanner.nextLine();
         String name = scanner.nextLine();
 
         System.out.print("Enter product price (delim: \",\"): ");
-        scanner.nextLine();
-
         float price = -1;
         try {
             price = scanner.nextFloat();
@@ -108,15 +127,7 @@ public class ProductMenu implements Menu {
         } catch (InputMismatchException ignored) {
         }
 
-        System.out.print("Enter product category: ");
-        scanner.nextLine();
-        ProductCategories category;
-        try {
-            category = ProductCategories.valueOf(scanner.nextLine().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            category = null;
-        }
-        Product product = new Product(price, name, amount, category);
+        Product product = new Product(price, name, amount, categoryList.get(categoryId));
 
         productService.saveProduct(product);
         System.out.println("Product was added successfully");
