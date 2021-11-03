@@ -14,6 +14,7 @@ import view.Menu;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
 public class ProductMenu implements Menu {
 
     private final OrderService orderService = new OrderServiceImpl();
@@ -84,14 +85,28 @@ public class ProductMenu implements Menu {
     }
 
     private void addProduct() {
+
+        int categoryId = -1;
+        while (categoryId <= 0 || categoryId > ProductCategories.values().length) {
+            System.out.println("Select product category: ");
+            for (int i = 0; i < ProductCategories.values().length; i++) {
+                System.out.println(i + 1 + ". " + ProductCategories.values()[i]);
+            }
+            if (!scanner.hasNextInt()) {
+                scanner.next();
+                categoryId = -1;
+            } else {
+                categoryId = scanner.nextInt();
+            }
+        }
+        --categoryId;
+
         boolean exists = false;
         System.out.print("Enter product name: ");
         scanner.nextLine();
         String name = scanner.nextLine();
 
         System.out.print("Enter product price (delim: \",\"): ");
-        scanner.nextLine();
-
         float price = -1;
         try {
             price = scanner.nextFloat();
@@ -107,15 +122,7 @@ public class ProductMenu implements Menu {
         } catch (InputMismatchException ignored) {
         }
 
-        System.out.print("Enter product category: ");
-        scanner.nextLine();
-        ProductCategories category;
-        try {
-            category = ProductCategories.valueOf(scanner.nextLine().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            category = null;
-        }
-        Product product = new Product(price, name, amount, category);
+        Product product = new Product(price, name, amount, ProductCategories.values()[categoryId]);
 
         productService.saveProduct(product);
         System.out.println("Product was added successfully");
