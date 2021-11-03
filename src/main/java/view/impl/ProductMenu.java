@@ -71,7 +71,6 @@ public class ProductMenu implements Menu {
         Product productToAdd = productService.getProductById(id);
 
         if (productToAdd != null) {
-            //noinspection OptionalGetWithoutIsPresent
             System.out.println(productToAdd);
             System.out.println("Enter amount: ");
             int productAmount = scanner.nextInt();
