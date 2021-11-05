@@ -103,14 +103,21 @@ public class ProductMenu implements Menu {
         } catch (InputMismatchException ignored) {
         }
 
+        System.out.println("Product category: ");
+        for (int i = 0; i < ProductCategories.values().length; i++) {
+            System.out.println((i + 1) + " " + ProductCategories.values()[i].toString());
+        }
+
         System.out.println("Enter product category: ");
         scanner.nextLine();
+        ProductCategories category = null;
 
-        ProductCategories category;
         try {
-            category = ProductCategories.valueOf(scanner.nextLine().toUpperCase());
+            int i = scanner.nextInt();
+            if (i <= ProductCategories.values().length && i > 0) {
+                category = ProductCategories.values()[i - 1];
+            }
         } catch (IllegalArgumentException e) {
-            category = null;
         }
         Product product = new Product(price, name, amount, category);
 
@@ -151,13 +158,21 @@ public class ProductMenu implements Menu {
             } catch (InputMismatchException ignored) {
             }
 
+            System.out.println("Product category: ");
+            for (int i = 0; i < ProductCategories.values().length; i++) {
+                System.out.println((i + 1) + " " + ProductCategories.values()[i].toString());
+            }
+
             System.out.println("Enter product category: ");
             scanner.nextLine();
-            ProductCategories category;
+            ProductCategories category = null;
+
             try {
-                category = ProductCategories.valueOf(scanner.nextLine().toUpperCase());
+                int i = scanner.nextInt();
+                if (i <= ProductCategories.values().length && i > 0) {
+                    category = ProductCategories.values()[i - 1];
+                }
             } catch (IllegalArgumentException e) {
-                category = null;
             }
 
             productToAdd.setName(name);
