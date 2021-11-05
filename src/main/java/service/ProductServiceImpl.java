@@ -34,6 +34,7 @@ public class ProductServiceImpl implements ProductService {
             System.out.println("Product data is not valid.");
             return false;
         }
+        System.out.println("Product data is valid.");
         return true;
     }
 

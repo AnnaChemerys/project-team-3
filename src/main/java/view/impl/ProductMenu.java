@@ -75,7 +75,6 @@ public class ProductMenu implements Menu {
             System.out.println("Enter amount: ");
             int productAmount = scanner.nextInt();
             orderService.addProductToOrder(productToAdd, productAmount);
-            System.out.println("Product was successfully added");
 
         } else {
             System.out.println("Invalid ID");
@@ -84,13 +83,11 @@ public class ProductMenu implements Menu {
     }
 
     private void addProduct() {
-        boolean exists = false;
-        System.out.print("Enter product name: ");
+        System.out.println("Enter product name: ");
         scanner.nextLine();
         String name = scanner.nextLine();
 
-        System.out.print("Enter product price (delim: \",\"): ");
-        scanner.nextLine();
+        System.out.println("Enter product price (delim: \",\"): ");
 
         float price = -1;
         try {
@@ -98,8 +95,7 @@ public class ProductMenu implements Menu {
         } catch (InputMismatchException ignored) {
         }
 
-        System.out.print("Enter product amount: ");
-        scanner.nextLine();
+        System.out.println("Enter product amount: ");
 
         int amount = -1;
         try {
@@ -107,8 +103,9 @@ public class ProductMenu implements Menu {
         } catch (InputMismatchException ignored) {
         }
 
-        System.out.print("Enter product category: ");
+        System.out.println("Enter product category: ");
         scanner.nextLine();
+
         ProductCategories category;
         try {
             category = ProductCategories.valueOf(scanner.nextLine().toUpperCase());
@@ -118,14 +115,12 @@ public class ProductMenu implements Menu {
         Product product = new Product(price, name, amount, category);
 
         productService.saveProduct(product);
-        System.out.println("Product was added successfully");
 
         show();
     }
 
     private void editProduct() {
-        boolean exists = false;
-        System.out.print("Enter product ID: ");
+        System.out.println("Enter product ID: ");
         scanner.nextLine();
         String productId = scanner.nextLine();
 
@@ -133,12 +128,12 @@ public class ProductMenu implements Menu {
 
         if (productToAdd != null) {
 
-            System.out.print("Enter product name: ");
+            System.out.println("Enter product name: ");
             scanner.nextLine();
 
             String name = scanner.nextLine();
 
-            System.out.print("Enter product price (delim: \",\"): ");
+            System.out.println("Enter product price (delim: \",\"): ");
             scanner.nextLine();
 
             float price = -1;
@@ -147,7 +142,7 @@ public class ProductMenu implements Menu {
             } catch (InputMismatchException ignored) {
             }
 
-            System.out.print("Enter product amount: ");
+            System.out.println("Enter product amount: ");
             scanner.nextLine();
 
             int amount = -1;
@@ -156,7 +151,7 @@ public class ProductMenu implements Menu {
             } catch (InputMismatchException ignored) {
             }
 
-            System.out.print("Enter product category: ");
+            System.out.println("Enter product category: ");
             scanner.nextLine();
             ProductCategories category;
             try {
@@ -170,7 +165,6 @@ public class ProductMenu implements Menu {
             productToAdd.setCategory(category);
             productToAdd.setPrice(price);
             productService.updateProduct(productToAdd);
-            System.out.println("Product was changed successfully");
         } else {
             System.out.println("No product with such ID");
         }
