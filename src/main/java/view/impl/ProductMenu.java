@@ -204,21 +204,23 @@ public class ProductMenu implements Menu {
             while (!exitz) {
                 System.out.println("Product list:");
                 productService.getAllProducts().subList(pageIndex[1], pageIndex[2]).forEach(x -> System.out.println("\t" + x));
-                if (pageIndex[0] == 0) {
-                    System.out.println("        / 2. Next / 3. Exit");
+                if (pageIndex[0] == 0 && increase >= productService.getAllProducts().size()) {
+                    System.out.println("        /         / 3. Exit");
                 } else if ((pageIndex[0] * increase) + increase >= productService.getAllProducts().size()) {
                     System.out.println("1. Prev /         / 3. Exit");
+                } else if (pageIndex[0] == 0 && increase < productService.getAllProducts().size()) {
+                    System.out.println("        / 2. Next / 3. Exit");
                 } else {
                     System.out.println("1. Prev / 2. Next / 3. Exit");
                 }
 
-                int userChoise = -1;
+                int userChoice = -1;
                 try {
-                    userChoise = scanner.nextInt();
+                    userChoice = scanner.nextInt();
                 } catch (InputMismatchException ignored) {
                 }
 
-                switch (userChoise) {
+                switch (userChoice) {
                     case 1 -> pageIndex = pageIndex(productService.getAllProducts(), increase, --pageIndex[0]);
                     case 2 -> pageIndex = pageIndex(productService.getAllProducts(), increase, ++pageIndex[0]);
                     case 3 -> exitz = true;
