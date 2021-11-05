@@ -12,6 +12,7 @@ import util.CurrentUser;
 import view.Menu;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class ProductMenu implements Menu {
@@ -181,10 +182,63 @@ public class ProductMenu implements Menu {
         if (productService.getAllProducts().size() <= 0) {
             System.out.println("----No products----");
         } else {
-            System.out.println("Product list:");
-            productService.getAllProducts().forEach(x -> System.out.println("\t" + x));
+            int increase = 3;
+            int page = 0;
+            int[] pageIndex = pageIndex(productService.getAllProducts(),increase,page);
+            boolean exitz = false;
+            while (!exitz) {
+                System.out.println("Product list:");
+                productService.getAllProducts().subList(pageIndex[1], pageIndex[2]).forEach(x -> System.out.println("\t" + x));
+                if (pageIndex[0] == 0) {
+                    System.out.println("        / 2. Next / 3. Exit");
+                } else if ((pageIndex[0] * increase) + increase >= productService.getAllProducts().size()) {
+                    System.out.println("1. Prev /         / 3. Exit");
+                } else {
+                    System.out.println("1. Prev / 2. Next / 3. Exit");
+                }
+
+                int userChoise = -1;
+                try {
+                    userChoise = scanner.nextInt();
+                } catch (InputMismatchException ignored) {
+                }
+
+                switch (userChoise) {
+                    case 1 -> pageIndex = pageIndex(productService.getAllProducts(), increase, --pageIndex[0]);
+                    case 2 -> pageIndex = pageIndex(productService.getAllProducts(), increase, ++pageIndex[0]);
+                    case 3 -> exitz = true;
+                }
+
+            }
         }
         show();
+    }
+
+    public int[] pageIndex(List items, int increase, int page) {
+        int pageOut;
+        int start;
+        int end;
+        int[] index = new int[3];
+        int maxPages = items.size() / increase;
+
+        if (page < 0) {
+            pageOut = 0;
+            start = pageOut;
+            end = increase;
+        } else if (page >= maxPages) {
+            pageOut = maxPages;
+            start = pageOut*increase;
+            end = items.size();
+        } else {
+            pageOut = page;
+            start = page*increase;
+            end = start+increase;
+        }
+
+        index[0] = pageOut;
+        index[1] = start;
+        index[2] = end;
+        return index;
     }
 
     @Override
